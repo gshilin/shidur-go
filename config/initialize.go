@@ -11,6 +11,7 @@ import(
 func CheckEnv() {
 
   env := []string{
+    "PORT",
     "DATABASE_URL",
   }
 

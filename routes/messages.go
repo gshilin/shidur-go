@@ -28,6 +28,12 @@ func MessagesIndex(w http.ResponseWriter, req *http.Request) {
   App.Render.JSON(w, http.StatusOK, response)
 }
 
+func MessagesDestroy(w http.ResponseWriter, req *http.Request) {
+  App.DB.Delete(models.Message{})
+  w.Header().Set("Access-Control-Allow-Origin", "*")
+  App.Render.JSON(w, http.StatusOK, "OK")
+}
+
 func MessagesQIndex(w http.ResponseWriter, req *http.Request) {
 
   type Response struct {

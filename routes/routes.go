@@ -22,6 +22,7 @@ func Setup(app *config.App) {
 
     config.Route{"MessagesIndex", "GET", "/questions", MessagesQIndex},
     config.Route{"MessagesIndex", "GET", "/messages", MessagesIndex},
+    config.Route{"MessagesIndex", "POST", "/messages", MessagesDestroy},
     //    config.Route{"MessagesNew", "GET", "/questions/new", MessagesNew},
 
     config.Route{"BookmarksIndex", "GET", "/bookmarks", BookmarksIndex},
