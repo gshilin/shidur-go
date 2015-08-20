@@ -14,7 +14,6 @@ func BooksIndex(w http.ResponseWriter, req *http.Request) {
   var response map[string]string
   response = make(map[string]string)
   for _, book := range books {
-    fmt.Println(book)
     a := fmt.Sprint(response[book.Author], "<li><a href='/books/", book.ID, "'>", book.Title, "</a></li>")
     response[book.Author] = a
   }

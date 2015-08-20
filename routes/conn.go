@@ -63,7 +63,6 @@ func (c *connection) readPump() {
       UserName: v["user_name"],
       Type: v["type"],
     }
-    fmt.Println(m)
     App.DB.Create(&m)
     H.broadcast <- message
   }

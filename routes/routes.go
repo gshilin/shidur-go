@@ -18,7 +18,7 @@ func Setup(app *config.App) {
   // Define your routes here:
   var routes = config.Routes{
     config.Route{"Websocket", "GET", "/ws", ServeWs},
-//    config.Route{"Root", "GET", "/", HomeIndex},
+    //    config.Route{"Root", "GET", "/", HomeIndex},
 
     config.Route{"MessagesIndex", "GET", "/questions", MessagesQIndex},
     config.Route{"MessagesIndex", "GET", "/messages", MessagesIndex},
@@ -30,5 +30,5 @@ func Setup(app *config.App) {
   }
 
   config.Setup(App.Router, routes)
-//  App.Router.Handle("/assets", http.FileServer(http.Dir("public")))
+  //  App.Router.Handle("/assets", http.FileServer(http.Dir("public")))
 }
