@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="row">
+            <form novalidate="novalidate" class="simple_form new_question" id="new_question" action="/questions"
+                  accept-charset="UTF-8" method="post">
+                <button class="btn btn-danger btn-large pull-left" id="question">שלח שאלה לסדנה&#8203;</button>
+                <h3>שאלה לסדנה&#8203;</h3>
+
+                <div class="control-group text optional question_question">
+                    <div class="controls">
+                        <textarea class="text optional form-control" rows="3"
+                                  name="question[question]" id="question_question"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h3>צ'ט
+            <div class="led led-green"></div>
+        </h3>
+        <div class="form-inline well">
+            <fieldset>
+                <input class="col-md-11" id="message" type="text">
+
+                <div class="col-md-1">
+                    <button class="btn btn-primary" id="send">Send</button>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="well" data-uri="ws://localhost:4000/ws" id="chat" style="height: 200px; overflow: auto;">
+            <div class="message" style="">
+            </div>
+        </div>
+    </div>
+</div>

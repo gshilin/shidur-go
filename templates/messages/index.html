@@ -1,0 +1,9 @@
+<h1>Posts</h1>
+
+{{ range . }}
+  <div class="message">
+    <h2>{{ .Message }}</h2>
+    <p>{{ .UserName }}</p>
+    <p>{{ .Type }}</p>
+  </div>
+{{ end }}
