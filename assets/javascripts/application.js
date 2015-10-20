@@ -10,13 +10,14 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery.min.js
-//#= require jquery-ui
-//#= require jquery_ujs
+//= require jquery
+//= require jquery-ui
+//= require jquery_ujs
 //#= require bootstrap-sprockets
 //= require handlebars-v2.0.0
 //= require jquery.cookie
 //= require file_handler
+//= require unformatted
 //= require template_manager
 //= require bookmarks
 //= require books
@@ -24,6 +25,7 @@
 //= require big_window
 //= require event_controller
 //= require reconnecting-websocket
+//= require mammoth.browser
 
 Handlebars.registerHelper('calcSubletter', function () {
     var subletter = this.subletter;
@@ -33,11 +35,13 @@ Handlebars.registerHelper('calcSubletter', function () {
 window.template_manager = new TemplateManager();
 
 $(function () {
+    url = $('#chat').data('uri');
     window.restore_state = new RestoreState();
-    window.books = new Books();
-    window.bookmarks = new Bookmarks();
+    window.books = new Books(url);
+    window.bookmarks = new Bookmarks(url);
     window.big_window = new BigWindow();
-    window.fileHandlerController = new FileHandler('#load_from_disk');
+    new FileHandler('#load_from_disk');
+    new Unformatted('#load_temp_file');
 
     $('.navbar-header').on('click', '.navbar-brand', function (evt) {
         evt.stopPropagation();

@@ -3,6 +3,21 @@ class window.BigWindow
 
   show_slide: true
 
+  constructor: ->
+    $('.show-question').on 'click', (event) =>
+      content = $('.sidebar-question .content').html()
+      event.stopPropagation()
+      event.stopImmediatePropagation()
+      @displayLiveQuestion(content)
+      $('.show-question').removeClass('btn-success').addClass('btn-default')
+      false
+
+    $('.switch-slides-question').on 'click', (event) =>
+      event.stopPropagation()
+      event.stopImmediatePropagation()
+      @switchSlidesQuestion()
+      false
+
   displayLiveSlide: (content) =>
     $(@bigWindow.document.body).find(".content").html(content)
 

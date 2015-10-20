@@ -10,12 +10,12 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *#= require jquery-ui
+ *= require jquery-ui
  *= require_self
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
-//@import "bootstrap-rtl.min";
+@import "bootstrap-rtl.min";
 
 $bg-color: rgb(243, 238, 238);
 
@@ -130,8 +130,10 @@ body {
   }
 }
 
-#load_from_disk {
+#load_temp_file, #load_from_disk {
   width: 20%;
+  float: right;
+  margin-left: 10px;
   &.over {
     border: 2px dashed #000;
   }
