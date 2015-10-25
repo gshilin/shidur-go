@@ -34,8 +34,10 @@ func BooksShow(w http.ResponseWriter, req *http.Request) {
   book_id := vars["id"]
 
   book := models.Book{}
-  App.DB.Where("id = ?", book_id).Select("slides").First(&book)
+  App.DB.Where("id = ?", book_id).Select("title, slides").First(&book)
 
   w.Header().Set("Access-Control-Allow-Origin", "*")
-  App.Render.JSON(w, http.StatusOK, book.Slides)
+  var response map[string]string = make(map[string]string)
+	response[book.Title] = book.Slides
+  App.Render.JSON(w, http.StatusOK, response)
 }
