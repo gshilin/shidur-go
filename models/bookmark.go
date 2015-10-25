@@ -9,6 +9,7 @@ type Bookmark struct {
 
   Author    string                   `json:"author"`
   Book      string    `sql:"size:255" json:"book"`
+  BookName  string    `sql:"size:255" json:"book_name"`
   Page      uint      `sql:"size:255" json:"page"`
   Letter    string    `sql:"size:255" json:"letter"`
   Position  uint      `sql:"size:255" json:"position"`
