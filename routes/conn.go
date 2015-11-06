@@ -7,7 +7,7 @@ import (
   "net/http"
   "fmt"
   "encoding/json"
-  "github.com/gshilin/shidur-slides/models"
+  "github.com/gshilin/shidur-go/models"
 )
 
 const (

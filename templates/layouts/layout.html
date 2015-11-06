@@ -1,10 +1,30 @@
-<html>
+<!DOCTYPE html>
+<body lang="he">
 <head>
-  <title>Layout View</title>
-  <script type="text/javascript" src="{{ asset_path "application.js" }}"></script>
-  <link rel="stylesheet" type="text/css" href="{{ asset_path "application.css" }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>ShidurSlides</title>
+    {{stylesheet_tag "application"}}
+    <!--= csrf_meta_tags-->
 </head>
 <body>
-  {{ yield }}
+<div class="nav navbar navbar-fixed-top navbar-default" role='navigation'>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"></a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="admin_books_path">Admin</a></li>
+            <li><a href="root_path">שקופיות</a></li>
+            <li><a href="new_question_path" target='_blank'>שאלה לסדנה</a></li>
+            <li><a href="questions_path" target='_blank'>כל שאלות מהיום</a></li>
+        </ul>
+    </div>
+</div>
+
+{{yield}}
+
+{{javascript_tag "application"}}
 </body>
 </html>

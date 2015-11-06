@@ -2,7 +2,7 @@ package routes
 
 import (
   "net/http"
-  "github.com/gshilin/shidur-slides/models"
+  "github.com/gshilin/shidur-go/models"
   "fmt"
   "github.com/gorilla/mux"
 )

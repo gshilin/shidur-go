@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require jquery.min
 //= require jquery-ui
 //= require jquery_ujs
 //#= require bootstrap-sprockets
@@ -25,7 +25,7 @@
 //= require big_window
 //= require event_controller
 //= require reconnecting-websocket
-//= require mammoth.browser
+//= require mammoth.browser.min
 
 Handlebars.registerHelper('calcSubletter', function () {
     var subletter = this.subletter;

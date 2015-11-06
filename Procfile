@@ -1,1 +1,1 @@
-web: shidur-slides
+web: shidur-go

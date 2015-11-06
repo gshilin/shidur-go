@@ -5,7 +5,7 @@ package models
 // the contents of the .env.test file into the OS environment.
 
 import (
-  "github.com/gshilin/shidur-slides/config"
+  "github.com/gshilin/shidur-go/config"
   . "github.com/onsi/ginkgo"
   . "github.com/onsi/gomega"
   "github.com/joho/godotenv"
@@ -32,5 +32,5 @@ var _ = BeforeSuite(func() {
 
 var _ = BeforeEach(func() {
   // Reset the DB before every test
-  app.DB.Exec("DELETE FROM posts;")
+  app.DB.Exec("DELETE FROM messages;")
 })

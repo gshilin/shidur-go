@@ -5,6 +5,7 @@ import (
   "github.com/gorilla/mux"
   "github.com/unrolled/render"
   "github.com/jinzhu/gorm"
+  "github.com/gshilin/train"
   "html/template"
   "path/filepath"
   "net/http"
@@ -18,7 +19,7 @@ type App struct {
   Negroni *negroni.Negroni
   Router  *mux.Router
   Render  *render.Render
-  QRender  *render.Render
+  QRender *render.Render
   DB      *gorm.DB
 }
 
@@ -40,13 +41,17 @@ func NewApp(root string) *App {
     Directory: filepath.Join(root, "templates"),
     Layout: "layouts/layout",
     Extensions: []string{".html"},
-    Funcs: []template.FuncMap{AssetHelpers(root)},
+    Funcs: []template.FuncMap{
+			AssetHelpers(root),
+		},
   })
   qre := render.New(render.Options{
     Directory: filepath.Join(root, "templates"),
     Layout: "layouts/message",
     Extensions: []string{".html"},
-    Funcs: []template.FuncMap{AssetHelpers(root), AssetHelpers(root)},
+    Funcs: []template.FuncMap{
+			AssetHelpers(root),
+		},
   })
 
   // Establish connection to DB as specificed in database.go
@@ -58,6 +63,12 @@ func NewApp(root string) *App {
   ne.Use(NewAssetHeaders())
   ne.Use(negroni.NewStatic(http.Dir("public")))
   ne.UseHandler(ro)
+
+  train.Config.SASS.DebugInfo = true
+  train.Config.SASS.LineNumbers = true
+  train.Config.Verbose = true
+  train.Config.BundleAssets = true
+  //ZZZtrain.ConfigureHttpHandler(ro)
 
   // Return a new App struct with all these things.
   return &App{ne, ro, re, qre, db}

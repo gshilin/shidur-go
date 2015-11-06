@@ -1,6 +1,6 @@
 package routes
 import (
-  "github.com/gshilin/shidur-slides/models"
+  "github.com/gshilin/shidur-go/models"
   "net/http"
 )
 
