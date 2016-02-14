@@ -62,6 +62,8 @@ func (c *connection) readPump() {
       Message: v["message"],
       UserName: v["user_name"],
       Type: v["type"],
+      Language: v["language"],
+      Approved: v["approved"] == "true",
     }
     App.DB.Create(&m)
     H.broadcast <- message

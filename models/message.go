@@ -13,6 +13,7 @@ type Message struct {
 	UserName  string    `sql:"size:255" json:"user_name"`
 	Type      string    `sql:"size:255" json:"type"`
 	Language  string    `sql:"size:255" json:"language"`
+	Approved  bool                     `json:"approved"`
 }
 
 type Messages []Message
