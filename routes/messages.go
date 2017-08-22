@@ -18,12 +18,14 @@ func MessagesIndex(w http.ResponseWriter, req *http.Request) {
 	// Find all messages in the DB
 	messages := models.Messages{}
 	App.DB.Order("id ASC").Find(&messages)
-
 	replaceNewLines(messages)
 
+	questions := models.Messages{}
+	App.DB.Where("type = 'question' AND approved = true").Order("id ASC").Find(&questions)
+
 	response := Response{
-		Last_questions: findLastQuestions(messages),
-		Messages: messages,
+		Last_questions: findLastQuestions(questions, false),
+		Messages:       messages,
 	}
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -37,9 +39,18 @@ func MessagesDestroy(w http.ResponseWriter, req *http.Request) {
 }
 
 func QuestionsUnapprove(w http.ResponseWriter, req *http.Request) {
+	type Response struct {
+		Messages []models.Message `json:"questions"`
+	}
+
 	App.DB.Model(models.Message{}).Updates(map[string]interface{}{"approved": false})
 
-	if m, err := json.Marshal(models.Messages{}); err != nil {
+	messages := models.Messages{}
+	App.DB.Where("type = 'question' AND approved = true").Order("id ASC").Find(&messages)
+	response := Response{
+		Messages: findLastQuestions(messages, true),
+	}
+	if m, err := json.Marshal(response); err != nil {
 		fmt.Println("Marshal Error: ", err)
 	} else {
 		H.broadcast <- m
@@ -49,7 +60,7 @@ func QuestionsUnapprove(w http.ResponseWriter, req *http.Request) {
 	App.Render.JSON(w, http.StatusOK, "OK")
 }
 
-func MessagesQIndex(w http.ResponseWriter, req *http.Request) {
+func QuestionsIndex(w http.ResponseWriter, req *http.Request) {
 	type Response struct {
 		Messages []models.Message `json:"questions"`
 	}
@@ -75,10 +86,10 @@ func MessagesApprove(w http.ResponseWriter, req *http.Request) {
 	message := models.Message{}
 
 	App.DB.Where("type = 'question' AND language = ?", language).Last(&message)
-	if (message.ID != 0) {
+	if message.ID != 0 {
 		message.Approved = true
 		err = App.DB.Save(&message).Error
-		// Send message to 3-questions
+		// Broadcast message to 3-questions & congress
 		if m, err := json.Marshal(message); err != nil {
 			fmt.Println("Marshal Error: ", err)
 		} else {
@@ -90,7 +101,7 @@ func MessagesApprove(w http.ResponseWriter, req *http.Request) {
 	App.Render.JSON(w, http.StatusOK, err)
 }
 
-func Messages3QIndex(w http.ResponseWriter, req *http.Request) {
+func Questions3Index(w http.ResponseWriter, req *http.Request) {
 	type Response struct {
 		Messages []models.Message `json:"questions"`
 	}
@@ -99,7 +110,25 @@ func Messages3QIndex(w http.ResponseWriter, req *http.Request) {
 	messages := models.Messages{}
 	App.DB.Where("type = 'question' AND approved = true").Order("id ASC").Find(&messages)
 	response := Response{
-		Messages: findLastQuestions(messages),
+		Messages: findLastQuestions(messages, false),
+	}
+
+	replaceNewLines(response.Messages)
+
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	App.Render.JSON(w, http.StatusOK, response)
+}
+
+func CongressIndex(w http.ResponseWriter, req *http.Request) {
+	type Response struct {
+		Messages []models.Message `json:"questions"`
+	}
+
+	// Find all approved 'cg' messages in the DB
+	messages := models.Messages{}
+	App.DB.Where("type = 'question' AND approved = true").Order("id ASC").Find(&messages)
+	response := Response{
+		Messages: findLastQuestions(messages, true),
 	}
 
 	replaceNewLines(response.Messages)
@@ -112,10 +141,12 @@ func MessagesNew(w http.ResponseWriter, req *http.Request) {
 	App.QRender.HTML(w, http.StatusOK, "messages/new", nil)
 }
 
-func findLastQuestions(messages []models.Message) []models.Message {
+func findLastQuestions(messages []models.Message, include_cg bool) []models.Message {
 	question_he := models.Message{}
 	question_en := models.Message{}
 	question_ru := models.Message{}
+	question_es := models.Message{}
+	question_cg := models.Message{}
 
 	for i := range messages {
 		v := messages[i]
@@ -127,11 +158,21 @@ func findLastQuestions(messages []models.Message) []models.Message {
 				question_en = v
 			case "ru":
 				question_ru = v
+			case "es":
+				question_es = v
+			case "cg":
+				if (include_cg) {
+					question_cg = v
+				}
 			}
 		}
 	}
 
-	return models.Messages{question_he, question_en, question_ru}
+	if include_cg {
+		return models.Messages{question_he, question_en, question_ru, question_es, question_cg}
+	} else {
+		return models.Messages{question_he, question_en, question_ru, question_es}
+	}
 }
 
 func replaceNewLines(messages []models.Message) {
