@@ -6,4 +6,5 @@ gin-bin
 .idea
 texts
 public
+vendor
 shidur-go
