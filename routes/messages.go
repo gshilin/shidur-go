@@ -1,17 +1,19 @@
 package routes
 
 import (
-	"net/http"
-	"github.com/gshilin/shidur-go/models"
-	"strings"
-	"github.com/gorilla/mux"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
+
+	"github.com/gshilin/shidur-go/models"
 )
 
 func MessagesIndex(w http.ResponseWriter, req *http.Request) {
 	type Response struct {
-		Last_questions []models.Message    `json:"last_questions"`
+		Last_questions []models.Message `json:"last_questions"`
 		Messages       []models.Message `json:"messages"`
 	}
 
@@ -141,38 +143,37 @@ func MessagesNew(w http.ResponseWriter, req *http.Request) {
 	App.QRender.HTML(w, http.StatusOK, "messages/new", nil)
 }
 
-func findLastQuestions(messages []models.Message, include_cg bool) []models.Message {
-	question_he := models.Message{}
-	question_en := models.Message{}
-	question_ru := models.Message{}
-	question_es := models.Message{}
-	question_cg := models.Message{}
+var Languages = []string{"it", "de", "nl", "fr", "pt", "tr", "pl", "ar", "hu", "fi", "lt", "ja", "bg", "ka", "no", "sv", "hr", "zh", "fa", "ro", "hi", "ua", "mk", "sl", "lv", "sk", "cs", "am",}
 
-	for i := range messages {
-		v := messages[i]
-		if v.Type == "question" {
-			switch v.Language {
-			case "he":
-				question_he = v
-			case "en":
-				question_en = v
-			case "ru":
-				question_ru = v
-			case "es":
-				question_es = v
-			case "cg":
-				if (include_cg) {
-					question_cg = v
-				}
-			}
+func findLastQuestions(messages []models.Message, include_cg bool) (msg []models.Message) {
+	x := map[string]models.Message{}
+	x["en"] = models.Message{Language: "en"}
+	x["he"] = models.Message{Language: "he"}
+	x["ru"] = models.Message{Language: "ru"}
+	x["es"] = models.Message{Language: "es"}
+	for _, language := range Languages {
+		x[language] = models.Message{
+			Language: language,
 		}
 	}
 
-	if include_cg {
-		return models.Messages{question_he, question_en, question_ru, question_es, question_cg}
-	} else {
-		return models.Messages{question_he, question_en, question_ru, question_es}
+	for _, v := range messages {
+		if v.Type == "question" {
+			x[v.Language] = v
+		}
 	}
+
+	msg = append(msg, x["en"])
+	msg = append(msg, x["he"])
+	msg = append(msg, x["ru"])
+	msg = append(msg, x["es"])
+	if include_cg {
+		for _, language := range Languages {
+			msg = append(msg, x[language])
+		}
+	}
+
+	return
 }
 
 func replaceNewLines(messages []models.Message) {

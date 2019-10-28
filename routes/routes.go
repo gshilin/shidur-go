@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"github.com/gshilin/shidur-go/config"
 	_ "fmt"
+
+	"github.com/gshilin/shidur-go/config"
 )
 
 var App *config.App
