@@ -8,7 +8,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/gshilin/shidur-go/models"
+	"shidur-go/models"
 )
 
 func MessagesIndex(w http.ResponseWriter, req *http.Request) {
@@ -143,7 +143,7 @@ func MessagesNew(w http.ResponseWriter, req *http.Request) {
 	App.QRender.HTML(w, http.StatusOK, "messages/new", nil)
 }
 
-var Languages = []string{"it", "de", "nl", "fr", "pt", "tr", "pl", "ar", "hu", "fi", "lt", "ja", "bg", "ka", "no", "sv", "hr", "zh", "fa", "ro", "hi", "ua", "mk", "sl", "lv", "sk", "cs", "am",}
+var Languages = []string{"it", "de", "nl", "fr", "pt", "tr", "pl", "ar", "hu", "fi", "lt", "ja", "bg", "ka", "no", "sv", "hr", "zh", "fa", "ro", "hi", "ua", "mk", "sl", "lv", "sk", "cs", "am"}
 
 func findLastQuestions(messages []models.Message, include_cg bool) (msg []models.Message) {
 	x := map[string]models.Message{}

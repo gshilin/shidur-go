@@ -3,7 +3,7 @@ package routes
 import (
 	_ "fmt"
 
-	"github.com/gshilin/shidur-go/config"
+	"shidur-go/config"
 )
 
 var App *config.App
@@ -17,6 +17,7 @@ func Setup(app *config.App) {
 	// Define your routes here:
 	var routes = config.Routes{
 		config.Route{"Websocket", "GET", "/ws", ServeWs},
+		config.Route{"Websocket", "GET", "/ws/ws", ServeWs},
 		config.Route{"Root", "GET", "/", HomeIndex},
 
 		config.Route{"QuestionsIndex", "GET", "/questions", QuestionsIndex},

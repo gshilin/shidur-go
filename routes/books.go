@@ -1,10 +1,12 @@
 package routes
 
 import (
-	"net/http"
-	"github.com/gshilin/shidur-go/models"
 	"fmt"
+	"net/http"
+
 	"github.com/gorilla/mux"
+
+	"shidur-go/models"
 )
 
 func BooksIndex(w http.ResponseWriter, req *http.Request) {

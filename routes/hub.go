@@ -5,13 +5,13 @@ type hub struct {
 	connections map[*connection]bool
 
 	// Inbound messages from the connections.
-	broadcast   chan []byte
+	broadcast chan []byte
 
 	// Register requests from the connections.
-	register    chan *connection
+	register chan *connection
 
 	// Unregister requests from connections.
-	unregister  chan *connection
+	unregister chan *connection
 }
 
 var H = hub{
